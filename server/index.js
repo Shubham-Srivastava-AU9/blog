@@ -1,11 +1,10 @@
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
+
 
 
 const app = express();
@@ -21,8 +20,12 @@ const CONNECTION_URL = "mongodb+srv://admin:Shubham268@cluster0.r7fr0.mongodb.ne
 const PORT = process.env.PORT|| 5000;
 
 // Step Heroku
-if(process.env.NODE_ENV==="production"){
-  app.use(express.static("client/build"))
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'))
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  })
 }
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
